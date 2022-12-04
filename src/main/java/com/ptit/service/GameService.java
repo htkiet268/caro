@@ -101,8 +101,8 @@ public class GameService {
                 }
             }
         }
-
-
+        GameStorage.getInstance().setGame(game);
+        System.out.println("Set game again");
         return game;
     }
     public Game gamePlay(GamePlay gamePlay) throws NotFoundException, InvalidGameExeption {
