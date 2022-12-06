@@ -54,7 +54,7 @@ public class GameService {
     public Game AIPlay(GamePlay gamePlay) throws NotFoundException, InvalidGameExeption {
 
 
-        int maxdepth = 6;
+        int maxdepth = 0;
 
         if (!GameStorage.getInstance().getGames().containsKey(gamePlay.getGameId())) {
             throw new NotFoundException("Game not found");

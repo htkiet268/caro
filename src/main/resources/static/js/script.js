@@ -24,6 +24,28 @@ var turns = [
     ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 ];
+var t = [
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+];
 var gameOn = false;
 var gameAi = false;
 
@@ -83,7 +105,8 @@ function playerTurn(turn, id) {
                 console.log("no click")
             }
         });
-            document.getElementById(id).innerText = "X"
+        document.getElementById(id).innerText = "X";
+
         console.log("gameAi: " + gameAi)
             if(gameAi){
                 makeAMoveAi(playerType, id.split("_")[0], id.split("_")[1]);
@@ -117,7 +140,7 @@ function makeAMove(type, xCoordinate, yCoordinate) {
 }
 
 function makeAMoveAi(type, xCoordinate, yCoordinate) {
-    fetch("http://localhost:8080/game/AIgameplay", {
+    fetch("http://localhost:3030/game/AIgameplay", {
         method: 'POST',
         headers: {
              'Content-Type': 'application/json'
@@ -143,7 +166,7 @@ function displayResponse(data) {
     for (let i = 0; i < board.length; i++) {
         for (let j = 0; j < board[i].length; j++) {
             if (board[i][j] === 1) {
-                turns[i][j] = 'X'
+                turns[i][j] = 'X';
             } else if (board[i][j] === 2) {
                 turns[i][j] = 'O';
             }
@@ -165,10 +188,12 @@ function displayResponseAi(data) {
             if (board[i][j] === 1) {
                 turns[i][j] = 'X';
                 document.getElementById(i + "_" + j).classList.add("x");
+            document.getElementById(i + "_" + j).classList.add("no-hover");
                 document.getElementById(i + "_" + j).innerText = 'X';
             } else if (board[i][j] === 2) {
                 turns[i][j] = 'O';
                 document.getElementById(i + "_" + j).classList.add("o");
+            document.getElementById(i + "_" + j).classList.add("no-hover");
                 document.getElementById(i + "_" + j).innerText = 'O';
             }
         }
@@ -177,6 +202,7 @@ function displayResponseAi(data) {
         for (let i = 0; i < 20; i++) {
             for (let j = 0; j < 20; j++) {
                 let id = i + "_" + j;
+                document.getElementById(i + "_" + j).classList.remove("no-hover");
                 document.getElementById(id).innerText = turns[i][j];
             }
         }
@@ -187,8 +213,10 @@ function displayResponseAi(data) {
             $(".mark-form").classList.remove("hide");
             if(winner === "X") {
                 $(".label-win").classList.remove("hide");
+                $(".label-lose").classList.add("hide");
             }
             else {
+                $(".label-win").classList.add("hide");
                 $(".label-lose").classList.remove("hide");
             }
             reset();
